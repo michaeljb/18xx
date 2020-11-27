@@ -30,7 +30,13 @@ module Engine
       end
 
       def available_hex(entity, hex)
-        @game.graph.connected_hexes(entity)[hex]
+        puts 'hello there'
+        @game.graph.connected_hexes(entity)[hex] ||
+          entity.companies.map { |c| @game.graph.company_tracker(c, hex) }.find { |x| x }
+      end
+
+      def available_hex_entities(entity, hex)
+        @game.graph.tile_laying_entities(entity, hex)
       end
     end
   end

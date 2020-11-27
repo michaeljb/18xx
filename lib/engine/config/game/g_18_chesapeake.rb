@@ -1,3 +1,4 @@
+# coding: utf-8
 # frozen_string_literal: true
 
 # File original exported from 18xx-maker/export-rb
@@ -261,6 +262,7 @@ module Engine
       "revenue": 10,
       "desc": "Blocks hexes H2 and I3 while owned by a player. The owning corporation may lay two connected tiles in hexes H2 and I3. Only #8 and #9 tiles may be used. If any tiles are played in these hexes other than by using this ability, the ability is forfeit. These tiles may be placed even if the owning corporation does not have a route to the hexes. These tiles are laid during the tile laying step and are in addition to the corporation’s tile placement action.",
       "sym": "C-P",
+      "logo": "18_chesapeake/C-P",
       "abilities": [
         {
           "type": "blocks_hexes",
@@ -293,6 +295,7 @@ module Engine
       "revenue": 10,
       "desc": "Blocks hexes F4 and G5 while owned by a player. The owning corporation may lay two connected tiles in hexes F4 and G5. Only #8 and #9 tiles may be used. If any tiles are played in these hexes other than by using this ability, the ability is forfeit. These tiles may be placed even if the owning corporation does not have a route to the hexes. These tiles are laid during the tile laying step and are in addition to the corporation’s tile placement action.",
       "sym": "B&S",
+      "logo": "18_chesapeake/B&S",
       "abilities": [
         {
           "type": "blocks_hexes",
@@ -325,6 +328,7 @@ module Engine
       "revenue": 15,
       "desc": "Blocks hex D2 while owned by a player. The owning corporation may place a tile in hex D2. The corporation does not need to have a route to this hex. The tile placed counts as the corporation’s tile lay action and the corporation must pay the terrain cost. The corporation may then immediately place a station token free of charge.",
       "sym": "C&OC",
+      "logo": "18_chesapeake/C&OC",
       "abilities": [
         {
           "type": "blocks_hexes",

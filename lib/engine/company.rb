@@ -11,7 +11,7 @@ module Engine
     include Ownable
 
     attr_accessor :desc, :max_price, :min_price, :revenue, :discount
-    attr_reader :name, :sym, :value, :min_auction_price, :treasury
+    attr_reader :name, :sym, :value, :min_auction_price, :treasury, :logo
 
     def initialize(sym:, name:, value:, revenue: 0, desc: '', abilities: [], **opts)
       @sym = sym
@@ -25,6 +25,7 @@ module Engine
       @closed = false
       @min_price = @value / 2
       @max_price = @value * 2
+      @logo = "/logos/#{opts[:logo]}.svg"
 
       init_abilities(abilities)
     end

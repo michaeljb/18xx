@@ -12,6 +12,7 @@ module Engine
       @reachable_hexes = {}
       @routes = {}
       @tokens = {}
+      @company_hexes = {}
     end
 
     def clear
@@ -74,6 +75,42 @@ module Engine
       @reachable_hexes[corporation]
     end
 
+    def tile_laying_entities(corporation, hex)
+      entities = []
+
+      entities << corporation if connected_hexes(corporation)[hex]
+
+      corporation.companies.each do |company|
+        company.abilities(:teleport) do |ability|
+          next if ability.used?
+
+          entities << company if ability.hexes.include?(hex.id)
+        end
+
+        company.abilities(:tile_lay) do |ability|
+          entities << company if ability.hexes.include?(hex.id)
+        end
+      end
+
+      entities
+    end
+
+    def token_placing_entities(corporation, hex)
+      entities = []
+
+      entities << corporation if reachable_hexes(corporation)[hex]
+
+      corporation.companies.each do |company|
+        company.abilities(:teleport) do |ability, _|
+          next unless ability.used?
+
+          entities << company if ability.hexes.any? { |_hex_id| hex.id == h_id }
+        end
+      end
+
+      entities
+    end
+
     def compute(corporation)
       hexes = Hash.new { |h, k| h[k] = {} }
       nodes = {}
@@ -98,17 +135,6 @@ module Engine
           @game.hex_by_id(hex_id).tile.cities.each do |node|
             nodes[node] = true
             yield node if block_given?
-          end
-        end
-      end
-
-      corporation.abilities(:teleport) do |ability, _|
-        ability.hexes.each do |hex_id|
-          hex = @game.hex_by_id(hex_id)
-          hex.neighbors.each { |e, _| hexes[hex][e] = true }
-          hex.tile.cities.each do |node|
-            nodes[node] = true
-            yield node if ability.used? && block_given?
           end
         end
       end
@@ -161,6 +187,18 @@ module Engine
       @connected_paths[corporation] = paths
       @routes[corporation] = routes
       @reachable_hexes[corporation] = paths.map { |path, _| [path.hex, true] }.to_h
+    end
+
+    def company_tracker(company, hex)
+      l = lambda do |ability|
+        return hex.neighbors.keys if ability.hexes.include?(hex.id)
+      end
+
+      company.abilities(:teleport, &l)
+
+      company.abilities(:tile_lay, &l)
+
+      nil
     end
   end
 end

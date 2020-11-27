@@ -14,7 +14,7 @@ module Lib
       end
     end
 
-    def style(left, bottom, size)
+    def style(left, bottom, size, **opts)
       {
         position: 'absolute',
         left: "#{left}px",
@@ -23,7 +23,7 @@ module Lib
         height: "#{size}px",
         filter: 'drop-shadow(5px 5px 2px #888)',
         pointerEvents: 'auto',
-      }
+      }.merge(opts)
     end
 
     DROP_SHADOW_SIZE = 5

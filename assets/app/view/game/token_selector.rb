@@ -33,7 +33,7 @@ module View
             on: {
               click: click,
             },
-            style: style(left, bottom, TOKEN_SIZE),
+            style: style(left, bottom, TOKEN_SIZE, cursor: 'pointer'),
           }
 
           h(:img, props)

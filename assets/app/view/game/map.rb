@@ -6,6 +6,7 @@ require 'view/game/hex'
 require 'view/game/tile_confirmation'
 require 'view/game/tile_selector'
 require 'view/game/token_selector'
+require 'view/game/tracker_selector'
 
 module View
   module Game
@@ -39,7 +40,8 @@ module View
         @hexes << @hexes.delete(selected_hex) if @hexes.include?(selected_hex)
 
         @hexes.map! do |hex|
-          clickable = @show_starting_map ? false : step&.available_hex(current_entity, hex)
+          tracker_entities = step&.available_hex_entities(current_entity, hex)
+          clickable = @show_starting_map ? false : tracker_entities&.any?
           opacity = clickable ? 1.0 : 0.5
           h(
             Hex,
@@ -47,6 +49,7 @@ module View
             opacity: @show_starting_map ? 1.0 : (@opacity || opacity),
             entity: current_entity,
             clickable: clickable,
+            tracker_entities: tracker_entities,
             actions: actions,
             show_coords: show_coords,
             show_location_names: show_location_names,
@@ -59,15 +62,20 @@ module View
         if current_entity && @tile_selector
           left = (@tile_selector.x + map_x) * SCALE
           top = (@tile_selector.y + map_y) * SCALE
+
           selector =
             if @tile_selector.is_a?(Lib::TokenSelector)
               # 1882
               h(TokenSelector)
+            elsif @tile_selector.is_a?(Lib::TrackerSelector)
+              puts 'match'
+              h(TrackerSelector)
             elsif @tile_selector.role != :map
               # Tile selector not for the map
             elsif @tile_selector.hex.tile != @tile_selector.tile
               h(TileConfirmation)
             else
+              puts 'else'
               # Selecting column A can cause tiles to go off the edge of the map
               distance = TileSelector::DISTANCE + (TileSelector::TILE_SIZE / 2)
 

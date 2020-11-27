@@ -2,6 +2,7 @@
 
 require 'lib/hex'
 require 'lib/tile_selector'
+require 'lib/tracker_selector'
 require 'view/game/actionable'
 require 'view/game/runnable'
 require 'view/game/tile'
@@ -28,6 +29,7 @@ module View
       needs :user, default: nil, store: true
 
       needs :clickable, default: false
+      needs :tracker_entities, default: []
       needs :actions, default: []
       needs :entity, default: nil
       needs :unavailable, default: nil
@@ -106,9 +108,14 @@ module View
         case @role
         when :map
           return process_action(Engine::Action::Assign.new(@entity, target: @hex)) if @actions.include?('assign')
+
           return unless @actions.include?('lay_tile')
 
-          if @selected && (tile = @tile_selector&.tile)
+          if @tracker_entities.size > 1
+            store(:tile_selector,
+                  Lib::TrackerSelector.new(@hex, coordinates, root, @tracker_entities))
+
+          elsif @selected && (tile = @tile_selector&.tile)
             @tile_selector.rotate! if tile.hex != @hex
           else
             store(:tile_selector, Lib::TileSelector.new(@hex, @tile, coordinates, root, @entity, @role))

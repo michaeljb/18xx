@@ -28,6 +28,10 @@ module Engine
         @game.graph.reachable_hexes(entity)[hex]
       end
 
+      def available_hex_entities(_entity, hex)
+        @game.graph.token_placing_entities(corporation, hex)
+      end
+
       def process_place_token(action)
         entity = action.entity
 
