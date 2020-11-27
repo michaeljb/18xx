@@ -68,14 +68,12 @@ module View
               # 1882
               h(TokenSelector)
             elsif @tile_selector.is_a?(Lib::TrackerSelector)
-              puts 'match'
               h(TrackerSelector)
             elsif @tile_selector.role != :map
               # Tile selector not for the map
             elsif @tile_selector.hex.tile != @tile_selector.tile
               h(TileConfirmation)
             else
-              puts 'else'
               # Selecting column A can cause tiles to go off the edge of the map
               distance = TileSelector::DISTANCE + (TileSelector::TILE_SIZE / 2)
 

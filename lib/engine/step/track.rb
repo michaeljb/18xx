@@ -30,7 +30,6 @@ module Engine
       end
 
       def available_hex(entity, hex)
-        puts 'hello there'
         @game.graph.connected_hexes(entity)[hex] ||
           entity.companies.map { |c| @game.graph.company_tracker(c, hex) }.find { |x| x }
       end
