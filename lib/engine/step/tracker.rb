@@ -124,7 +124,9 @@ module Engine
 
           token.remove!
         end
+
         @log << "#{spender.name}"\
+          "#{spender == entity ? '' : " (#{entity.sym})"}"\
           "#{cost.zero? ? '' : " spends #{@game.format_currency(cost)} and"}"\
           " lays tile ##{tile.name}"\
           " with rotation #{rotation} on #{hex.name}"
@@ -225,11 +227,7 @@ module Engine
       end
 
       def legal_tile_rotation?(entity, hex, tile)
-        puts 'legal_tile_rotation?'
-        puts '    0'
         return false unless @game.legal_tile_rotation?(entity, hex, tile)
-
-        puts '    1'
 
         old_paths = hex.tile.paths
         old_ctedges = hex.tile.city_town_edges
@@ -239,28 +237,13 @@ module Engine
         new_ctedges = tile.city_town_edges
         extra_cities = [0, new_ctedges.size - old_ctedges.size].max
 
-        return false unless new_exits.all? { |edge| hex.neighbors[edge] }
-
-        puts '    2'
-
-        puts "    new_exits = #{new_exits}"
-        puts "    available_hex(#{entity.name}, #{hex.id}) = #{available_hex(entity, hex)}"
-        return false unless (new_exits & available_hex(entity, hex)).any?
-
-        puts '    3'
-        return false unless old_paths.all? { |path| new_paths.any? { |p| path <= p } }
-
-        puts '    4'
-
-        # Count how many cities on the new tile that aren't included by any of the old tile.
-        # Make sure this isn't more than the number of new cities added.
-        # 1836jr30 D6 -> 54 adds more cities
-        unless extra_cities >= new_ctedges.count { |newct| old_ctedges.all? { |oldct| (newct & oldct).none? } }
-          return false
-        end
-
-        puts '    5'
-        true
+        new_exits.all? { |edge| hex.neighbors[edge] } &&
+          (new_exits & available_hex(entity, hex)).any? &&
+          old_paths.all? { |path| new_paths.any? { |p| path <= p } } &&
+          # Count how many cities on the new tile that aren't included by any of the old tile.
+          # Make sure this isn't more than the number of new cities added.
+          # 1836jr30 D6 -> 54 adds more cities
+          extra_cities >= new_ctedges.count { |newct| old_ctedges.all? { |oldct| (newct & oldct).none? } }
       end
 
       def legal_tile_rotations(entity, hex, tile)
