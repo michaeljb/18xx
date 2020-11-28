@@ -66,7 +66,7 @@ module Engine
         active_step&.current_entity == entity
       end
 
-      def teleported?(_entity, hex = nil)
+      def teleported?(_entity, _hex = nil)
         false
       end
 
