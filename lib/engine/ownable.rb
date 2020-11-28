@@ -14,6 +14,10 @@ module Engine
       owner.is_a?(Player) ? owner : owner&.player
     end
 
+    def corporation
+      owner.is_a?(Corporation) ? owner : owner&.corporation
+    end
+
     def owned_by_corporation?
       owner.is_a?(Corporation)
     end

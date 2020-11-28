@@ -54,7 +54,7 @@ module Engine
       end
 
       def skip!
-        log_skip(current_entity) if !@acted && current_entity
+        log_skip(current_entity) if !acted && current_entity
         pass!
       end
 

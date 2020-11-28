@@ -23,7 +23,7 @@ module Engine
             @game.log << "#{owner.name} adds mine to #{tile.hex.name}"
             tile_lay_abilities(action.entity).use!
           end
-          step.laid_track = step.laid_track + 1
+          action.entity.laid_track += 1
         end
 
         def available_hex(entity, hex)

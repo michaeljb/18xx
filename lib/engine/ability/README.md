@@ -168,6 +168,8 @@ normal tile lay actions.
   error is triggered. Default false.
 - `must_lay_together`: If true, all the tile lays must happen at the same
   time. Default false.
+- `uses_corp_action`: If true, laying the tile uses the owning corporation's
+  normal tile lay action. Default false.
 
 ## train_buy
 

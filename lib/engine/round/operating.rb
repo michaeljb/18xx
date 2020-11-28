@@ -63,6 +63,7 @@ module Engine
           entity.remove_ability(ability)
         end
         entity.trains.each { |train| train.operated = false }
+        entity.laid_track = 0
         @log << "#{entity.owner.name} operates #{entity.name}" unless finished?
         @game.place_home_token(entity) if @home_token_timing == :operate
         skip_steps

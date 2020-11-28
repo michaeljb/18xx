@@ -7,7 +7,10 @@ module Engine
     module Tracker
       def setup
         @upgraded = false
-        @laid_track = 0
+      end
+
+      def acted
+        @acted || current_entity.corporation.laid_track.positive?
       end
 
       def can_lay_tile?(entity)
@@ -18,7 +21,7 @@ module Engine
       end
 
       def get_tile_lay(entity)
-        action = @game.tile_lays(entity)[@laid_track]&.clone
+        action = @game.tile_lays(entity)[entity.corporation.laid_track]&.clone
         return unless action
 
         action[:lay] = !@upgraded if action[:lay] == :not_if_upgraded
@@ -27,15 +30,15 @@ module Engine
         action
       end
 
-      def lay_tile_action(action)
+      def lay_tile_action(action, **opts)
         tile = action.tile
-        tile_lay = get_tile_lay(action.entity)
+        tile_lay = get_tile_lay(action.entity.corporation)
         @game.game_error('Cannot lay an upgrade now') if tile.color != :yellow && !tile_lay[:upgrade]
         @game.game_error('Cannot lay an yellow now') if tile.color == :yellow && !tile_lay[:lay]
 
-        lay_tile(action, extra_cost: tile_lay[:cost])
+        lay_tile(action, extra_cost: tile_lay[:cost], **opts)
         @upgraded = true if action.tile.color != :yellow
-        @laid_track += 1
+        action.entity.corporation.laid_track += 1
       end
 
       def tile_lay_abilities(entity, &block)

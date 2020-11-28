@@ -155,6 +155,10 @@ module Engine
       true
     end
 
+    def corporation
+      self
+    end
+
     def receivership?
       owner&.share_pool?
     end

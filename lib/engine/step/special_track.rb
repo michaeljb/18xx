@@ -32,7 +32,11 @@ module Engine
 
       def process_lay_tile(action)
         ability = tile_lay_abilities(action.entity)
-        lay_tile(action, spender: action.entity.owner)
+        if ability.uses_corp_action
+          lay_tile_action(action, spender: action.entity.corporation)
+        else
+          lay_tile(action, spender: action.entity.owner)
+        end
         check_connect(action, ability)
         ability.use!
 
@@ -71,9 +75,17 @@ module Engine
       def tile_lay_abilities(entity, &block)
         return unless entity&.company?
 
-        ability = entity.abilities(:tile_lay, time: 'sold', &block) if @round.respond_to?(:just_sold_company) &&
-          entity == @round.just_sold_company
-        ability || entity.abilities(:tile_lay, time: 'track', &block)
+        if @round.respond_to?(:just_sold_company) &&
+           entity == @round.just_sold_company
+          ability = entity.abilities(:tile_lay, time: 'sold', &block)
+          return ability if ability
+        end
+
+        ability = entity.abilities(:tile_lay, time: 'track', &block)
+        return ability if ability
+
+        ability = entity.abilities(:teleport, &block)
+        ability if ability && !ability.used?
       end
 
       def check_connect(_action, ability)

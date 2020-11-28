@@ -10,12 +10,12 @@ module Engine
 
         def setup
           @upgraded = false
-          @laid_track = 0
           @laid_city = false
         end
 
         def get_tile_lay(entity)
-          action = @game.tile_lays(entity)[@laid_track]&.clone
+          corporation = entity.corporation
+          action = @game.tile_lays(entity)[corporation.laid_track]&.clone
           return unless action
 
           action[:lay] = !@upgraded && !@laid_city if action[:lay] == :not_if_upgraded_or_city
@@ -26,15 +26,15 @@ module Engine
 
         def lay_tile_action(action)
           tile = action.tile
-          tile_lay = get_tile_lay(action.entity)
+          tile_lay = get_tile_lay(action.corporation)
           @game.game_error('Cannot lay an upgrade now') if tile.color != :yellow && !tile_lay[:upgrade]
           @game.game_error('Cannot lay an yellow now') if tile.color == :yellow && !tile_lay[:lay]
-          @game.game_error('Cannot lay a city tile now') if tile.cities.any? && @laid_track.positive?
+          @game.game_error('Cannot lay a city tile now') if tile.cities.any? && corporation.laid_track.positive?
 
           lay_tile(action, extra_cost: tile_lay[:cost])
           @upgraded = true if action.tile.color != :yellow
           @laid_city = true if action.tile.cities.any?
-          @laid_track += 1
+          corporation.laid_track += 1
         end
 
         def lay_tile(action, extra_cost: 0, entity: nil, spender: nil)

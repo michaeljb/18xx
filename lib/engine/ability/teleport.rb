@@ -1,15 +1,19 @@
 # frozen_string_literal: true
 
-require_relative 'base'
+require_relative 'tile_lay'
 
 module Engine
   module Ability
-    class Teleport < Base
-      attr_reader :hexes, :tiles
+    class Teleport < TileLay
+      def setup(**_opts)
+        super
 
-      def setup(hexes:, tiles:)
-        @hexes = hexes
-        @tiles = tiles
+        @special = false
+        @connect = false
+        @blocks = false
+        @reachable = false
+        @free = false
+        @uses_corp_action = true
       end
     end
   end

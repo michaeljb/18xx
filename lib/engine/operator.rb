@@ -6,13 +6,14 @@ module Engine
   module Operator
     include Entity
 
-    attr_accessor :rusted_self, :coordinates
+    attr_accessor :rusted_self, :coordinates, :laid_track
     attr_reader :color, :city, :loans, :logo, :operating_history, :text_color, :tokens, :trains
 
     def init_operator(opts)
       @cash = 0
       @trains = []
       @operating_history = {}
+      @laid_track = 0
       # phase rusts happen before a train actually buys, so there is a race condition
       # where buying a train rusts yourself and it looks like you must buy a train
       @rusted_self = false

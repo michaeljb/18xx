@@ -104,7 +104,7 @@ module Engine
         company.abilities(:teleport) do |ability, _|
           next unless ability.used?
 
-          entities << company if ability.hexes.any? { |_hex_id| hex.id == h_id }
+          entities << company if ability.hexes.any? { |hex_id| hex.id == hex_id }
         end
       end
 

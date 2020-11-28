@@ -21,7 +21,7 @@ module Engine
       end
 
       def pass_description
-        @acted ? 'Done (Track)' : 'Skip (Track)'
+        acted ? 'Done (Track)' : 'Skip (Track)'
       end
 
       def process_lay_tile(action)

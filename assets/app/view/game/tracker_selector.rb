@@ -18,9 +18,7 @@ module View
 
         logos = list_coordinates(entities, DISTANCE, SIZE).map do |entity, left, bottom|
           click = lambda do
-            if entity.company?
-              store(:selected_company, entity, skip: true)
-            end
+            store(:selected_company, entity, skip: true) if entity.company?
             store(:tile_selector, Lib::TileSelector.new(hex, tile, coordinates, root, entity, :map))
           end
 
