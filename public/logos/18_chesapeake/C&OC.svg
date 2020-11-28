@@ -1,55 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   id="Layer_1"
-   data-name="Layer 1"
-   width="114.93"
-   height="77.31"
-   viewBox="0 0 175 77.31"
-   version="1.1"
-   sodipodi:docname="C&amp;OC.svg"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)">
-  <metadata
-     id="metadata644">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1533"
-     inkscape:window-height="845"
-     id="namedview642"
-     showgrid="false"
-     inkscape:zoom="3.0526453"
-     inkscape:cx="-63.741352"
-     inkscape:cy="38.654999"
-     inkscape:window-x="67"
-     inkscape:window-y="27"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="Layer_1" />
-  <defs
-     id="defs629">
-    <style
-       id="style627">
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="175" height="77.31" viewBox="0 0 175 77.31">
+  <defs>
+    <style>
       .cls-1 {
         fill: #fff;
         stroke: #231f20;
@@ -58,36 +9,19 @@
       }
     </style>
   </defs>
-  <rect
-     class="cls-1"
-     x="1.15"
-     y="1.15"
-     width="173"
-     height="75"
-     id="rect631" />
-  <g
-     aria-label="C&amp;OC"
-     style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-     id="text648">
+  <rect class="cls-1" x="1.15" y="1.15" width="173" height="75"/>
+  <g>
     <path
        d="m 39.579312,31.991001 h -1.456 q -5.208,-11.256 -13.048,-11.256 -10.136,0 -10.136,17.864 0,17.024 11.088,17.024 7,0 12.88,-6.944 l 1.624,1.624 q -3.528,4.032 -6.72,5.88 -3.976,2.352 -8.96,2.352 -8.12,0 -13.72,-4.872 -6.2719995,-5.376 -6.2719995,-14.728 0,-9.52 6.3839995,-15.176 5.656,-4.984 13.272,-4.984 3.304,0 7.112,1.288 3.808,1.288 4.2,1.288 0.896,0 1.456,-0.672 0.224,-0.28 1.008,-1.792 h 1.288 z"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:56px;font-family:VremyaFWF;-inkscape-font-specification:'VremyaFWF, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start"
-       id="path57"
-       inkscape:connector-curvature="0" />
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:56px;font-family:VremyaFWF;-inkscape-font-specification:'VremyaFWF, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start"/>
     <path
        d="m 85.844937,51.199001 q -3.416,7.168 -8.848,7.168 -4.48,0 -8.848,-4.984 -6.944,4.928 -12.04,4.928 -4.984,0 -8.064,-2.744 -3.08,-2.744 -3.08,-7.056 0,-7.84 10.92,-12.824 l -2.016,-3.976 q -0.896,-1.792 -0.896,-3.976 0,-4.312 3.08,-6.664 2.912,-2.296 8.064,-2.296 4.704,0 7.168,2.184 2.072,1.792 2.072,4.368 0,2.352 -1.568,4.312 -1.12,1.4 -2.408,2.016 l -4.424,2.184 q 5.04,7.448 8.4,11.816 1.064,-1.12 2.52,-3.472 1.792,-2.968 1.792,-4.424 0,-2.408 -3.864,-2.408 v -1.4 h 11.816 v 1.4 q -2.296,0.168 -3.528,1.512 -0.112,0.112 -2.52,3.808 -2.24,3.36 -4.928,6.888 1.96,2.408 2.968,3.304 1.904,1.736 3.752,1.736 2.24,0 3.304,-2.184 z m -22.176,-19.096 1.792,-0.784 q 2.296,-1.008 2.296,-3.864 0,-1.792 -1.064,-3.92 -1.512,-2.912 -3.976,-2.912 -3.192,0 -3.192,3.08 0,2.128 1.12,3.808 z m -6.72,5.32 q -2.24,1.4 -2.744,1.96 -1.344,1.4 -1.344,3.528 0,3.304 2.688,7 2.912,4.032 6.16,4.032 1.792,0 5.152,-2.184 -4.312,-5.712 -9.912,-14.336 z"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:56px;font-family:VremyaFWF;-inkscape-font-specification:'VremyaFWF, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start"
-       id="path59"
-       inkscape:connector-curvature="0" />
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:56px;font-family:VremyaFWF;-inkscape-font-specification:'VremyaFWF, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start"/>
     <path
        d="m 110.70806,58.535001 q -7.896,0 -13.551998,-4.928 -6.328,-5.544 -6.328,-14.952 0,-9.408 6.328,-14.952 5.655998,-4.928 13.551998,-4.928 7.896,0 13.552,4.928 6.328,5.544 6.328,14.952 0,9.408 -6.328,14.952 -5.656,4.928 -13.552,4.928 z m 9.912,-19.88 q 0,-17.976 -9.912,-17.976 -9.912,0 -9.912,17.976 0,8.232 2.408,12.936 2.576,5.04 7.504,5.04 4.872,0 7.504,-5.096 2.408,-4.76 2.408,-12.88 z"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:56px;font-family:VremyaFWF;-inkscape-font-specification:'VremyaFWF, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start"
-       id="path61"
-       inkscape:connector-curvature="0" />
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:56px;font-family:VremyaFWF;-inkscape-font-specification:'VremyaFWF, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start"/>
     <path
        d="m 169.18869,31.991001 h -1.456 q -5.208,-11.256 -13.048,-11.256 -10.136,0 -10.136,17.864 0,17.024 11.088,17.024 7,0 12.88,-6.944 l 1.624,1.624 q -3.528,4.032 -6.72,5.88 -3.976,2.352 -8.96,2.352 -8.12,0 -13.72,-4.872 -6.272,-5.376 -6.272,-14.728 0,-9.52 6.384,-15.176 5.656,-4.984 13.272,-4.984 3.304,0 7.112,1.288 3.808,1.288 4.2,1.288 0.896,0 1.456,-0.672 0.224,-0.28 1.008,-1.792 h 1.288 z"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:56px;font-family:VremyaFWF;-inkscape-font-specification:'VremyaFWF, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start"
-       id="path63"
-       inkscape:connector-curvature="0" />
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:56px;font-family:VremyaFWF;-inkscape-font-specification:'VremyaFWF, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start"/>
   </g>
 </svg>
