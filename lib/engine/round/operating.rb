@@ -81,8 +81,12 @@ module Engine
           @entities.size > index
       end
 
-      def teleported?(entity)
-        entity.abilities(:teleport)&.find(&:used?)
+      def teleported?(entity, hex = nil)
+        entity.abilities(:teleport)&.find do |ability|
+          next if hex && !ability.hexes.include?(hex.id)
+
+          ability.used?
+        end
       end
 
       def operating?

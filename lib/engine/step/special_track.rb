@@ -39,6 +39,7 @@ module Engine
         end
         check_connect(action, ability)
         ability.use!
+        @game.graph.compute_company(ability.owner) if ability.type == :teleport
 
         @company = ability.count.positive? ? action.entity : nil if ability.must_lay_together
       end

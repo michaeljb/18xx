@@ -77,7 +77,7 @@ module Engine
       end
 
       def adjust_token_price_ability!(entity, token, hex, city)
-        if (teleport = @round.teleported?(entity))
+        if (teleport = @round.teleported?(entity, hex))
           token.price = 0
           return [token, teleport]
         end

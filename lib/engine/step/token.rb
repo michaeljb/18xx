@@ -37,8 +37,8 @@ module Engine
 
       def process_place_token(action)
         entity = action.entity
-
-        place_token(entity, action.city, action.token)
+        teleport = !!@round.teleported?(entity, action.city.hex)
+        place_token(entity, action.city, action.token, teleport: teleport)
         pass!
       end
     end

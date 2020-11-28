@@ -42,6 +42,7 @@ module Engine
     end
 
     def can_token?(corporation)
+      return true if @game.round.teleported?(corporation)
       return @tokens[corporation] if @tokens.key?(corporation)
 
       compute(corporation) do |node|
