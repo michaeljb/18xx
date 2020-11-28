@@ -8,6 +8,7 @@ module Engine
       def setup(**_opts)
         super
 
+        @count = 2
         @special = false
         @connect = false
         @blocks = false

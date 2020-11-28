@@ -96,7 +96,10 @@ module View
       def on_hex_click
         return if @actions.empty? && @role != :tile_page
 
-        return store(:tile_selector, nil) if !@clickable || (@hex == @tile_selector&.hex && !@tile_selector.tile)
+        if !@clickable || (@hex == @tile_selector&.hex && !@tile_selector.tile)
+          store(:selected_company, nil)
+          return store(:tile_selector, nil)
+        end
 
         nodes = @hex.tile.nodes
 
@@ -114,9 +117,12 @@ module View
           if @tracker_entities.size > 1
             store(:tile_selector,
                   Lib::TrackerSelector.new(@hex, coordinates, root, @tracker_entities))
-
           elsif @selected && (tile = @tile_selector&.tile)
             @tile_selector.rotate! if tile.hex != @hex
+          elsif @tracker_entities.one?
+            entity = @tracker_entities.first
+            store(:selected_company, entity) if entity.company?
+            store(:tile_selector, Lib::TileSelector.new(@hex, @tile, coordinates, root, entity, @role))
           else
             store(:tile_selector, Lib::TileSelector.new(@hex, @tile, coordinates, root, @entity, @role))
           end

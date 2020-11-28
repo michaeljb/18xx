@@ -58,7 +58,15 @@ module Engine
         return if ability.hexes&.any? && !ability.hexes&.include?(hex.id)
         return if ability.reachable && !@game.graph.connected_hexes(entity.owner)[hex]
 
+        if (available = @game.graph.connected_hexes(entity)[hex])
+          return available
+        end
+
         @game.hex_by_id(hex.id).neighbors.keys
+      end
+
+      def available_hex_entities(entity, hex)
+        available_hex(entity, hex) ? [entity] : []
       end
 
       def potential_tiles(entity, hex)

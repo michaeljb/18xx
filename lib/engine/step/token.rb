@@ -25,11 +25,14 @@ module Engine
       end
 
       def available_hex(entity, hex)
-        @game.graph.reachable_hexes(entity)[hex]
+        @game.graph.reachable_hexes(entity)[hex] ||
+          entity.companies.map { |c| @game.graph.reachable_hexes(c)[hex] }.find { |x| x }
       end
 
       def available_hex_entities(entity, hex)
-        @game.graph.token_placing_entities(entity, hex)
+        [entity, *entity.companies].select do |e|
+          @game.graph.reachable_hexes(e)[hex]
+        end
       end
 
       def process_place_token(action)

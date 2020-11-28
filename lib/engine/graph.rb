@@ -12,7 +12,6 @@ module Engine
       @reachable_hexes = {}
       @routes = {}
       @tokens = {}
-      @company_hexes = {}
     end
 
     def clear
@@ -55,9 +54,9 @@ module Engine
       @tokens[corporation]
     end
 
-    def connected_hexes(corporation)
-      compute(corporation) unless @connected_hexes[corporation]
-      @connected_hexes[corporation]
+    def connected_hexes(entity)
+      compute(entity) unless @connected_hexes[entity]
+      @connected_hexes[entity]
     end
 
     def connected_nodes(corporation)
@@ -70,48 +69,16 @@ module Engine
       @connected_paths[corporation]
     end
 
-    def reachable_hexes(corporation)
-      compute(corporation) unless @reachable_hexes[corporation]
-      @reachable_hexes[corporation]
+    def reachable_hexes(entity)
+      compute(entity) unless @reachable_hexes[entity]
+      @reachable_hexes[entity]
     end
 
-    def tile_laying_entities(corporation, hex)
-      entities = []
+    def compute(entity)
+      return compute_company(entity) if entity.company?
 
-      entities << corporation if connected_hexes(corporation)[hex]
+      corporation = entity
 
-      corporation.companies.each do |company|
-        company.abilities(:teleport) do |ability|
-          next if ability.used?
-
-          entities << company if ability.hexes.include?(hex.id)
-        end
-
-        company.abilities(:tile_lay) do |ability|
-          entities << company if ability.hexes.include?(hex.id)
-        end
-      end
-
-      entities
-    end
-
-    def token_placing_entities(corporation, hex)
-      entities = []
-
-      entities << corporation if reachable_hexes(corporation)[hex]
-
-      corporation.companies.each do |company|
-        company.abilities(:teleport) do |ability, _|
-          next unless ability.used?
-
-          entities << company if ability.hexes.any? { |hex_id| hex.id == hex_id }
-        end
-      end
-
-      entities
-    end
-
-    def compute(corporation)
       hexes = Hash.new { |h, k| h[k] = {} }
       nodes = {}
       paths = {}
@@ -189,16 +156,31 @@ module Engine
       @reachable_hexes[corporation] = paths.map { |path, _| [path.hex, true] }.to_h
     end
 
-    def company_tracker(company, hex)
-      l = lambda do |ability|
-        return hex.neighbors.keys if ability.hexes.include?(hex.id)
+    def compute_company(company)
+      connected = Hash.new { |h, k| h[k] = [] }
+      reachable = {}
+
+      company.abilities(:tile_lay) do |ability|
+        ability.hexes.each do |hex_id|
+          hex = @game.hex_by_id(hex_id)
+          connected[hex].concat(hex.neighbors.keys)
+        end
       end
 
-      company.abilities(:teleport, &l)
+      company.abilities(:teleport) do |ability|
+        ability.hexes.each do |hex_id|
+          hex = @game.hex_by_id(hex_id)
+          if ability.used?
+            reachable[hex] = true
+          else
+            connected[hex].concat(hex.neighbors.keys)
+          end
+        end
+      end
 
-      company.abilities(:tile_lay, &l)
-
-      nil
+      connected.default = nil
+      @connected_hexes[company] = connected
+      @reachable_hexes[company] = reachable
     end
   end
 end

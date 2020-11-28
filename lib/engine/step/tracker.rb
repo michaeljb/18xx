@@ -93,10 +93,6 @@ module Engine
           extra_cost += ability.cost
         end
 
-        entity.abilities(:teleport) do |ability, _|
-          ability.use! if ability.hexes.include?(hex.id) && ability.tiles.include?(tile.name)
-        end
-
         terrain = old_tile.terrain
         cost =
           if free
