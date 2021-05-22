@@ -296,7 +296,7 @@ module Engine
 
         def init_development_hexes
           @hexes.select do |hex|
-            hex.tile.city_towns.empty? && hex.tile.offboards.empty?
+            !%i[gray red].include?(hex.tile.color) && hex.tile.city_towns.empty? && hex.tile.offboards.empty?
           end
         end
 
