@@ -262,6 +262,9 @@ module Engine
 
         def isr_payout_companies(p12_bidders)
           payout_companies
+
+          return if p12_bidders.empty?
+
           bidders = p12_bidders.map(&:name).sort
           @log << "#{bidders.join(', ')} collect#{bidders.one? ? 's' : ''} $5 "\
                   "for their bid#{bidders.one? ? '' : 's'} on #{p12_company.name}"
