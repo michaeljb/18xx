@@ -714,7 +714,7 @@ module Engine
             %w[K13] => 'upgrade=terrain:cow_skull,cost:20,size:40;'\
                        'border=edge:2,type:mountain;border=edge:3,type:mountain',
             %w[K15] => 'upgrade=cost:20,terrain:cow_skull,size:40;town=revenue:0,boom:1;'\
-                       'icon=image:1868_wy/uranium;icon=image:1868_wy/uranium;'\
+                       'icon=image:1868_wy/uranium,sticky:1;icon=image:1868_wy/uranium,sticky:1;'\
                        'border=edge:2,type:mountain;border=edge:3,type:mountain',
             %w[K17] => 'upgrade=cost:40,terrain:mountain;town=revenue:0;'\
                        'border=edge:2,type:mountain;border=edge:3,type:mountain',
@@ -722,7 +722,7 @@ module Engine
                        'border=edge:2,type:mountain;border=edge:3,type:mountain',
             %w[K21] => 'border=edge:1,type:water,cost:30;upgrade=cost:20,terrain:mountain;'\
                        'border=edge:2,type:mountain;border=edge:3,type:mountain',
-            %w[K23] => 'upgrade=cost:30,terrain:mountain;town=revenue:0,boom:1;icon=image:1868_wy/uranium;'\
+            %w[K23] => 'upgrade=cost:30,terrain:mountain;town=revenue:0,boom:1;icon=image:1868_wy/uranium,sticky:1;'\
                        'border=edge:2,type:mountain;border=edge:3,type:mountain',
             %w[K25] => 'upgrade=cost:60,terrain:mountain;'\
                        'border=edge:2,type:mountain;border=edge:3,type:mountain',
