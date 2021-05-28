@@ -109,6 +109,12 @@ task :precompile do
   assets.clean_intermediate_output_files
 end
 
+task :'precompile:spec' do
+  require_relative 'lib/assets'
+  assets = Assets.new(compress: false, gzip: false, cache: true, precompiled: false)
+  assets.combine
+end
+
 desc 'Profile loading data'
 task 'stackprof', [:json] do |_task, args|
   require 'stackprof'

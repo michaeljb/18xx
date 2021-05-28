@@ -7,18 +7,59 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
 
+  setup:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Ruby 3.0
-      uses: actions/setup-ruby@v1
+    - name: Set up Ruby 3.0 and install dependencies
+      uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 3.0.x
-    - name: Build and test with Rake
+        ruby-version: 3.0.1
+        bundler-cache: true
+    - name: Compile
       run: |
-        gem install bundler
-        bundle install --jobs 4 --retry 3
-        bundle exec rake
+        bundle exec rake precompile:spec
+    - name: Cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          build
+          public
+        key: Cache-${{ github.sha }}
+
+  RuboCop:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby 3.0 and install dependencies
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.0.1
+        bundler-cache: true
+    - name: RuboCop
+      run: |
+        bundle exec rubocop
+
+  Spec1:
+    needs: setup
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby 3.0 and install dependencies
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.0.1
+        bundler-cache: true
+    - name: Cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          build
+          public
+        key: Cache-${{ github.sha }}
+    - name: Test Thing
+      run: |
+        bundle exec rspec spec/assets_spec.rb
