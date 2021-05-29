@@ -96,6 +96,9 @@ module Engine
 
         GHOST_TOWN_NAME = 'ghost town'
 
+        CREDIT_MOBILIER_MIN_COLUMN = 2
+        CREDIT_MOBILIER_MAX_COLUMN = 28
+
         def dotify(tile)
           tile.towns.each { |town| town.style = :dot }
           tile
@@ -131,6 +134,9 @@ module Engine
           @busters = {}
 
           @tile_layers = {}
+
+          credit_mobilier_columns = (CREDIT_MOBILIER_MIN_COLUMN..CREDIT_MOBILIER_MAX_COLUMN)
+          @cm_columns_paid = credit_mobilier_columns.map { |c| [c, nil] }.to_h
 
           @late_corps, @corporations = @corporations.partition { |c| LATE_CORPORATIONS.include?(c.id) }
           @late_corps.each { |corp| corp.reservation_color = nil }
@@ -289,6 +295,9 @@ module Engine
               action.hex.tile.color = :gray
               @log << 'Wind River Canyon turns gray; it can never be upgraded'
             end
+
+            process_credit_mobilier(action)
+
             @tile_layers[action.hex] = action.entity.player
           end
         end
@@ -756,6 +765,111 @@ module Engine
               reorder_players
               new_stock_round
             end
+        end
+
+        def union_pacific
+          @union_pacific ||= corporation_by_id('UP')
+        end
+
+        def omaha_connected_to_cm_region
+          @omaha_connected_to_cm_region ||= check_omaha_credit_mobilier_connection!
+        end
+
+        def omaha_home_node
+          @omaha_home_node ||= omaha_hex.tile.offboards.first
+        end
+
+        def check_omaha_credit_mobilier_connection!
+          omaha_home_node.walk do |path, _vp, _visited|
+            hex = path.hex
+            return true if CREDIT_MOBILIER_HEXES.include?(hex.coordinates)
+          end
+          false
+        end
+
+        def ogden_hex
+          @ogden_hex ||= hex_by_id('O1')
+        end
+
+        def omaha_hex
+          @omaha_hex ||= hex_by_id('O33')
+        end
+
+        def golden_spike_connection?(hex, base_hex)
+          return false unless [ogden_hex, omaha_hex].include?(base_hex)
+
+          base_hex.tile.offboards.first.walk do |path, _vp, _visited|
+            return true if path.hex == hex
+          end
+          false
+        end
+
+        def update_credit_mobilier(hex, direction)
+          return unless (CREDIT_MOBILIER_MIN_COLUMN..CREDIT_MOBILIER_MAX_COLUMN).include?(hex.column)
+
+          @cm_columns_paid[hex.column] = direction
+          @cm_columns_paid.each do |column, dir|
+            next if dir
+            next if (direction == :west) && (column < hex.column)
+            next if (direction == :east) && (column > hex.column)
+
+            @cm_columns_paid[column] = direction
+          end
+        end
+
+        def process_credit_mobilier(action)
+          hex = action.hex
+          column = hex.column
+          tile = action.tile
+
+          return unless CREDIT_MOBILIER_HEXES.include?(hex.coordinates)
+          return unless tile.color == :yellow
+          return if @phase.tiles.include?(:brown)
+          return if @cm_columns_paid[column]
+
+          easternmost_paid = @cm_columns_paid.select { |k, v| v == :east }.keys.max || (CREDIT_MOBILIER_MIN_COLUMN - 1)
+          westernmost_paid = @cm_columns_paid.select { |k, v| v == :west }.keys.min || (CREDIT_MOBILIER_MAX_COLUMN + 1)
+
+          going_east_candidate = column > easternmost_paid
+          going_west_candidate = (column < westernmost_paid) && omaha_connected_to_cm_region
+
+          going_east = going_east_candidate && golden_spike_connection?(hex, ogden_hex)
+          going_west = going_west_candidate && golden_spike_connection?(hex, omaha_hex)
+
+          if going_east && going_west
+            update_credit_mobilier(hex, :east)
+            # TODO: golden spike
+          elsif going_east
+            update_credit_mobilier(hex, :east)
+          elsif going_west
+            update_credit_mobilier(hex, :west)
+          else
+            return
+          end
+
+          terrain_total = action.hex.original_tile.upgrades.sum(&:cost)
+          # TODO: border terrain cost
+
+          per_share = terrain_total / 10
+
+          payouts = {}
+
+          payout = union_pacific.num_treasury_shares * per_share
+          payouts[union_pacific] = payout
+          @bank.spend(payout, union_pacific)
+
+          union_pacific.player_share_holders.each do |player, share_percentage|
+            payout = (share_percentage / 10) * per_share
+            payouts[player] = payout
+            @bank.spend(payout, player)
+          end
+
+          receivers = payouts
+                        .sort_by { |_r, c| -c }
+                        .map { |receiver, cash| "#{format_currency(cash)} to #{receiver.name}" }.join(', ')
+
+          @log << 'Crédit Mobilier (the Bank) pays out the terrain cost to Union Pacific shareholders: '\
+                  "#{format_currency(terrain_total)} = #{format_currency(per_share)} per share (#{receivers})"
         end
       end
     end

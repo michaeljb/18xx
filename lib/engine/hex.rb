@@ -7,7 +7,8 @@ module Engine
     include Assignable
 
     attr_accessor :x, :y, :ignore_for_axes, :location_name
-    attr_reader :coordinates, :empty, :layout, :neighbors, :all_neighbors, :tile, :original_tile
+    attr_reader :coordinates, :empty, :layout, :neighbors, :all_neighbors, :tile, :original_tile,
+                :column, :row
 
     DIRECTIONS = {
       flat: {
@@ -44,21 +45,28 @@ module Engine
       letter = coordinates.match(COORD_LETTER)[1]
       number = coordinates.match(COORD_NUMBER)[1].to_i
 
-      x =
+      x, column =
         if axes_config[:x] == :letter
           LETTERS.index(letter) || -NEGATIVE_LETTERS.index(letter)
         else
           number - 1
         end
 
-      y =
+      y, row =
         if axes_config[:y] == :letter
           LETTERS.index(letter) || -NEGATIVE_LETTERS.index(letter)
         else
           number - 1
         end
 
-      [x, y]
+      column, row =
+        if axes_config[:x] == :letter
+          [letter, number]
+        else
+          [number, letter]
+        end
+
+      [x, y, column, row]
     end
 
     # Coordinates are of the form A1..Z99
@@ -68,7 +76,8 @@ module Engine
                    location_name: nil, empty: false)
       @coordinates = coordinates
       @layout = layout
-      @x, @y = self.class.init_x_y(@coordinates, axes)
+      @axes = axes
+      @x, @y, @column, @row = self.class.init_x_y(@coordinates, axes)
       @neighbors = {}
       @all_neighbors = {}
       @location_name = location_name

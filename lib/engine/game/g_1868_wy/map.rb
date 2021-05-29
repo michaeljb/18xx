@@ -863,6 +863,14 @@ module Engine
                        'path=a:_0,b:0,terminal:1;path=a:_0,b:1,terminal:1;path=a:_0,b:2,terminal:1',
           },
         }.freeze
+
+        CREDIT_MOBILIER_HEXES = %w[
+          K3 K5 K7 K9 K11 K13 K15 K17 K19 K21 K23 K25 K27
+          L2 L4 L6 L8 L10 L12 L14 L16 L18 L20 L22 L24 L26 L28
+          M3 M5 M7 M9 M11 M13 M15 M17 M19 M21 M23 M25 M27
+          N2 N4 N6 N8 N10 N12 N14 N16 N18 N20 N24 N26 N28
+          O3 O5 O7 O9 O11 O13 O15 O17 O21 O25 O27
+        ].freeze
       end
     end
   end
